@@ -1,6 +1,7 @@
 package com.app.service;
 
 import com.app.model.Poll;
+import com.app.model.PollOptionVote;
 import com.app.repository.PollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,5 +25,16 @@ public class PollService {
 
     public Optional<Poll> getPollById(long id){
         return repository.findById(id);
+    }
+
+    public void vote(long pollId, int optionIndex){
+        Poll poll = repository.findById(pollId).orElseThrow(() -> new RuntimeException("Poll not found"));
+        List<PollOptionVote> options = poll.getOptions();
+        if(optionIndex < 0 || optionIndex >= options.size()){
+            throw new IllegalArgumentException("Invalid option index");
+        }
+        PollOptionVote selectedOption = options.get(optionIndex);
+        selectedOption.setVoteCount(selectedOption.getVoteCount() + 1);
+        repository.save(poll);
     }
 }
