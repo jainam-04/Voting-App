@@ -11,7 +11,23 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './poll.component.html',
   styleUrl: './poll.component.css',
 })
+
 export class PollComponent implements OnInit {
+  newPoll: Poll = {
+    id: 0,
+    question: '',
+    options: [
+      {
+        voteOption: '',
+        voteCount: 0
+      },
+      {
+        voteOption: '',
+        voteCount: 0
+      }
+    ]
+  };
+
   polls: Poll[] = [];
 
   constructor(private service: PollService){}
@@ -24,10 +40,45 @@ export class PollComponent implements OnInit {
     this.service.getPolls().subscribe({
       next: (data) => {
         this.polls = data;
+        console.log("Polls Loaded Successfully");
       },
       error: (error) => {
         console.error("Error fetching polls: ", error);
       }
     });
+  }
+
+  trackByIndex(index: number): number{
+    return index;
+  }
+
+  createPoll(){
+    this.service.createPoll(this.newPoll).subscribe({
+      next: (createdPoll) => {
+        this.polls.push(createdPoll);
+        this.resetPoll();
+        console.log("Poll Created Successfully");
+      },
+      error: (error) => {
+        console.error("Error creating in poll: ", error);
+      }
+    });
+  }
+
+  resetPoll(){
+    this.newPoll = {
+      id: 0,
+      question: '',
+      options: [
+        {
+          voteOption: '',
+          voteCount: 0
+        },
+        {
+          voteOption: '',
+          voteCount: 0
+        }
+      ]
+    };
   }
 }
