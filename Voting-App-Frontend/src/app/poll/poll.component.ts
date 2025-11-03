@@ -81,4 +81,22 @@ export class PollComponent implements OnInit {
       ]
     };
   }
+
+  vote(pollId: number, optionIndex: number){
+    this.service.vote(pollId, optionIndex).subscribe({
+      next: () => {
+        const poll = this.polls.find((p) => p.id === pollId);
+        if(poll){
+          poll.options[optionIndex].voteCount += 1;
+          console.log("Poll Voting Successful")
+        }
+        else{
+          console.error("Poll not found");
+        }
+      },
+      error: (error) => {
+        console.error("Error in voting the poll: ", error);
+      }
+    });
+  }
 }
