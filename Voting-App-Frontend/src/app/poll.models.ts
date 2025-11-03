@@ -1,5 +1,5 @@
 export interface PollOptionVote{
-      optionText : string;
+      voteOption : string;
       voteCount : number;
 }
 
