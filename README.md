@@ -65,7 +65,7 @@ Built with **Spring Boot** for the backend, **Angular** for the frontend, and **
    spring.datasource.password=<Your password>
    spring.jpa.hibernate.ddl-auto=update
    spring.jpa.show-sql=true
-   spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+   spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
    ```
 3. Run the Spring Boot application:
    ```bash
